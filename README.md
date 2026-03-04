@@ -1,0 +1,238 @@
+# College Counselor
+
+A Claude Code skill that guides high school students through the complete 4-year college application journey — from freshman-year interest discovery through senior-year decisions. 12 commands covering interest elicitation, academic planning, extracurricular spike strategy, standardized testing, college list building, Socratic essay coaching, application strategy, financial aid, and summer planning. It uses Motivational Interviewing techniques, tracks milestones against a grade-aware timeline engine, and maintains persistent state across sessions so nothing falls through the cracks. Not a generic advice bot. An adaptive counselor that meets students where they are and gets sharper the longer you use it.
+
+Say `kickoff`, share your grade level, and you're being counseled in under 2 minutes.
+
+---
+
+## What It Does
+
+**Interest discovery** -- Deep elicitation using Holland Code, flow activities, Ikigai, Gardner's Multiple Intelligences, and VIA Strengths frameworks. Helps students figure out what they're genuinely passionate about, not what they think they should be passionate about. Results feed directly into academic and activity planning.
+
+**Academic planning** -- Maps discovered interests to one of nine academic tracks (Engineering, CS, Pre-Med, Business, Law-Humanities, Psychology-Education, Arts-Design, Trades-CTE, Undecided) with a complete 4-year course sequence. Aligns course rigor with target schools and what the student's school actually offers.
+
+**Spike strategy** -- Builds "well-lopsided" extracurricular profiles instead of well-rounded ones. Identifies 1-2 spike areas and guides students from participation to leadership to impact to recognition using a four-tier activity ranking system (National, State, School, Community).
+
+**Timeline tracking** -- A grade-aware milestone engine that checks the student's current position against where they should be every session. Surfaces upcoming deadlines, flags overdue milestones with opportunity framing, and adapts recommendations to the academic calendar and season.
+
+**Socratic essay coaching** -- Guides students to find their own story and voice through questions, not templates. Uses anonymized strong essay examples for illustration. Never writes content for the student. Covers personal statements, supplemental essays, and activity descriptions.
+
+**College list building** -- Constructs balanced reach/match/safety lists with fit analysis across academics, activities, culture, and cost. Includes demonstrated interest strategy, application type guidance (ED/EA/RD), and school-specific research using live web lookups.
+
+**Financial aid guidance** -- FAFSA and CSS Profile walkthroughs, net price calculator direction for each school on the list, scholarship strategy (merit, local, national, essay-based), and financial aid comparison and negotiation coaching when offers arrive.
+
+**Progress monitoring** -- Full milestone-by-milestone timeline checks, section-by-section assessment of the student's profile, and top priority actions based on grade level, season, and where the student is in the process. Coaching strategy adapts when something isn't working.
+
+---
+
+## Quick Start
+
+1. Clone the repo:
+
+```bash
+git clone https://github.com/yourusername/college-counselor-skill.git
+cd college-counselor-skill
+```
+
+Or download it as a ZIP and unzip.
+
+2. Activate the counselor by renaming the skill file:
+
+```bash
+mv SKILL.md CLAUDE.md
+```
+
+3. Open the folder in Claude Code and say `kickoff`.
+
+Requires any paid Claude plan. Also works with Claude Code (terminal), Cursor, or any environment with file system access.
+
+---
+
+The counselor will ask for your grade level, school, interests, and goals -- then build your profile, check your timeline, and give you a prioritized action plan. Everything saves automatically to `counseling_state.md` so you pick up where you left off next session.
+
+---
+
+## Commands
+
+### Getting Started
+
+| Command | What It Does |
+|---------|-------------|
+| `kickoff` | Set up your profile -- grade, school, interests, goals, and family context. Everything starts here. |
+
+### Exploration & Planning
+
+| Command | What It Does |
+|---------|-------------|
+| `discover` | Deep interest exploration using proven frameworks (Holland Code, flow activities, strengths, values). Helps you figure out what you're genuinely passionate about. |
+| `plan` | Map your interests to an academic track and build a 4-year course sequence. Aligns course rigor with your goals and what your school offers. |
+| `activities` | Build your extracurricular strategy. Identify your "spike" -- the 1-2 areas where you go deep. Depth beats breadth in modern admissions. |
+
+### Testing & College Research
+
+| Command | What It Does |
+|---------|-------------|
+| `testing` | SAT vs. ACT decision, prep planning, score analysis, AP exam strategy, and test-optional guidance. Builds a testing timeline matched to your college list. |
+| `schools` | Build your college list -- reach, match, and safety schools with fit analysis across academics, activities, culture, and cost. Includes demonstrated interest strategy. |
+| `summer` | Summer program strategy -- from prestigious research programs to meaningful self-directed projects. Grade-appropriate recommendations connected to your spike. |
+
+### Applications & Essays
+
+| Command | What It Does |
+|---------|-------------|
+| `essays` | Socratic essay coaching -- questions to help you find your story and your voice. Covers personal statement, supplements, and activity descriptions. Never writes for you. |
+| `apply` | Application strategy -- ED/EA/RD decisions, recommendation letter strategy, activity descriptions, application platform guidance, and deadline management. |
+
+### Financial
+
+| Command | What It Does |
+|---------|-------------|
+| `financial` | FAFSA and CSS Profile guidance, net price calculators for your schools, scholarship strategy (merit, local, national, essay-based), and financial aid comparison and negotiation when offers arrive. |
+
+### Progress
+
+| Command | What It Does |
+|---------|-------------|
+| `review` | Full progress check -- milestone-by-milestone timeline status, section-by-section assessment, and top 3 priority actions based on your grade and where you are in the process. |
+| `help` | Command guide with context-aware recommendations based on where you are. |
+
+---
+
+## Workflow Examples
+
+### 1) "I'm a freshman with no idea what I want to do"
+
+```text
+kickoff
+```
+
+Set up your profile, then:
+
+```text
+discover
+```
+
+Explore your interests through structured frameworks -- Holland Code, flow activities, strengths, and values. Then:
+
+```text
+plan
+```
+
+Map those interests to an academic track and build your course sequence. Then:
+
+```text
+activities
+```
+
+Find your spike area and start building extracurricular depth. The counselor walks you through this sequence naturally and recommends the next step after each command.
+
+### 2) "I need to start my college applications"
+
+```text
+kickoff
+```
+
+Set up your profile (or the counselor picks up from your existing state). Then:
+
+```text
+schools
+```
+
+Build your reach/match/safety list with fit analysis and demonstrated interest strategy. Then:
+
+```text
+apply
+```
+
+Map out your application strategy -- ED/EA/RD decisions, recommendation letter asks, and deadline management. Then:
+
+```text
+essays
+```
+
+Socratic essay coaching for your personal statement and supplementals. The counselor helps you find your story through questions, not templates.
+
+### 3) "Am I on track?"
+
+```text
+review
+```
+
+Full progress check against the timeline engine. You get milestone-by-milestone status (ahead, on-track, coming-up, behind), a section-by-section profile assessment, and the top 3 actions to focus on right now. The counselor frames overdue milestones as opportunities, not failures.
+
+### 4) "Help me with my essay"
+
+```text
+essays
+```
+
+The counselor checks whether you have a narrative thread (from `discover` and `activities`). If you do, it uses that foundation to guide essay brainstorming. If you don't, it walks you through interest discovery first so your essay connects to a real story. All coaching is Socratic -- questions and anonymized examples, never drafting content for you.
+
+---
+
+## How It Works
+
+**Session state** -- The counselor maintains a persistent `counseling_state.md` file that tracks your profile, interest discovery results, academic track, activities, testing, college list, essay progress, financial aid status, summer plans, recommendations, timeline milestones, coaching notes, and active counseling strategy. At the start of each session, it reads this file and picks up where you left off. Saves happen automatically after every major workflow -- not just at session end.
+
+**Timeline engine** -- A milestone database organized by grade level and season (freshman fall through senior spring). Every session, the counselor checks your current position against the timeline and surfaces what's coming up, what's on track, and what needs attention. Recommendations are always grounded in where you actually are, not a generic checklist.
+
+**Socratic approach** -- The counselor never writes application content for the student. Essays, activity descriptions, and personal statements are guided through questions. Anonymized strong examples are available for illustration, but the student's voice stays their own. This is enforced as a non-negotiable operating rule.
+
+**Motivational Interviewing voice** -- Open-ended questions (70%+ of all questions), affirmations, reflective listening, and rolling with resistance. "I don't know" is always a valid answer -- it's information, not failure. The counselor adapts its directness level (1-5) based on the student's preference, but the underlying assessment never changes.
+
+**Grade-aware adaptation** -- The counselor's tone, urgency, and command recommendations shift based on grade level. Freshmen get exploration mode with low pressure. Sophomores get building mode with emerging direction. Juniors get action mode with clear timeline urgency. Seniors get execution mode with specific deadlines.
+
+---
+
+## Important Notes
+
+**AI, not a human counselor.** This skill supplements school counselors, parents, and professional advisors. It never replaces them. The counselor is transparent about being an AI in every interaction.
+
+**Socratic only for all student writing.** The counselor will never draft essays, activity descriptions, or any application content. It guides through questions and shows anonymized examples. The student's voice must be their own.
+
+**Safety protocol.** If any input contains crisis signals (self-harm, abuse, suicidal ideation), the counselor immediately surfaces professional resources (988 Suicide & Crisis Lifeline, school counselor, therapist) and pauses the current workflow. It never diagnoses, never attempts therapy, and never labels a student with any condition.
+
+**Equity check always active.** Trades, CTE, community college, gap years, and military paths are presented with equal respect. Every student gets reach school suggestions regardless of GPA. First-generation students get proactive guidance on the hidden curriculum of college applications. Financial alternatives are always included alongside expensive options.
+
+**Parent access.** Parents can check timeline status and milestone progress. Essay brainstorming content and coaching notes (the counselor's private observations) are not shared with parents.
+
+---
+
+## Repository Structure
+
+```text
+college-counselor-skill/
+├── SKILL.md                            # Core skill -- rename to CLAUDE.md to activate
+├── README.md                           # This file
+├── VERSIONS.md                         # Version roadmap
+├── LICENSE                             # MIT License
+├── counseling_state.md                 # Created on first kickoff (persistent memory, auto-saved)
+└── references/
+    ├── commands/                       # Per-command workflows (loaded on demand)
+    │   ├── kickoff.md
+    │   ├── discover.md
+    │   ├── plan.md
+    │   ├── activities.md
+    │   ├── testing.md
+    │   ├── schools.md
+    │   ├── essays.md
+    │   ├── apply.md
+    │   ├── financial.md
+    │   ├── summer.md
+    │   ├── review.md
+    │   └── help.md
+    ├── cross-cutting.md                # Shared modules: spike development, narrative threading, equity check, MI techniques
+    ├── academic-tracks.md              # Track definitions, course sequences, activity recommendations
+    ├── admissions-knowledge.md         # Holistic review, testing landscape, financial aid, application types
+    ├── elicitation-frameworks.md       # Holland Code, Flow, Ikigai, Gardner, VIA frameworks and question banks
+    ├── essay-examples.md              # Anonymized strong essay examples for Socratic illustration
+    ├── timeline-engine.md              # Grade-aware milestone database (freshman through senior)
+    └── safety-protocol.md              # Crisis detection, resource routing, reality check layer
+```
+
+---
+
+## License
+
+MIT
