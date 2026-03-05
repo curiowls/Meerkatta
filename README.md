@@ -33,7 +33,7 @@ Say `kickoff`, share your grade level, and you're being counseled in under 2 min
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/yourusername/beacon.git
+git clone https://github.com/00derek/Beacon.git
 cd beacon
 ```
 
