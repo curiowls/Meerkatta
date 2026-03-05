@@ -61,11 +61,31 @@ Once installed, the skill auto-triggers when college prep topics come up. Or jus
 - **Timeline engine** — grade-aware milestones from freshman fall through senior spring
 - **Chat-native** — designed for mobile-friendly, conversational interaction via Telegram/Discord/etc.
 
+## Daily Knowledge Monitor (New!)
+
+Beacon includes a daily cron job that automatically checks for time-sensitive updates relevant to your student's situation:
+
+- 📅 **Deadline changes** — application, test registration, scholarships
+- 📋 **Policy updates** — test-optional changes, FAFSA updates
+- ⏰ **Approaching milestones** — reminders for upcoming deadlines
+- 🏫 **School-specific news** — changes at schools on your college list
+
+**Only notifies when something matters.** No daily spam — silent when there's nothing new.
+
+### Enable it:
+
+```bash
+openclaw cron add --schedule "0 8 * * *" --task "beacon-daily-monitor" --label "Beacon Knowledge Monitor"
+```
+
+The monitor reads your student's profile (`counseling_state.md`) and runs targeted searches. Updates are logged in `references/knowledge-updates.md`.
+
 ## Differences from Original Beacon
 
 - Adapted for OpenClaw's skill system (runs via chat channels, not Claude Code terminal)
 - Chat-friendly formatting (shorter responses, no wide tables, mobile-optimized)
 - Uses OpenClaw tools (read/write/web_search/web_fetch) for file operations and research
+- **New: Daily knowledge monitor** — cron-based auto-updates for deadlines, policy changes, and approaching milestones
 - Same counseling logic, frameworks, and reference materials
 
 ## Credits

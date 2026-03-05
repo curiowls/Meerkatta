@@ -20,6 +20,91 @@ This skill runs inside OpenClaw and may be accessed via chat channels (Telegram,
 - **File operations**: Use the `read` and `write` tools for state persistence. Use `web_fetch` and `web_search` for school-specific research.
 - **Reference files**: All reference files are relative to this skill's directory. Resolve paths against the skill location.
 
+## Daily Knowledge Monitor (Cron System)
+
+Beacon includes a daily cron job that monitors time-sensitive college admissions information and notifies the student only when something important changes.
+
+### How It Works
+
+1. **Reads `counseling_state.md`** to understand the student's grade, college list, testing plans, and upcoming milestones
+2. **Reads `references/watch-list.md`** to know what to search for
+3. **Runs targeted web searches** for deadline changes, policy updates, and approaching deadlines relevant to this specific student
+4. **Compares findings against `references/knowledge-updates.md`** to avoid duplicate alerts
+5. **If something changed or a deadline is approaching (within 14 days)**: logs the update and sends a notification to the student's chat channel
+6. **If nothing new**: stays silent — no notification
+
+### Watch List Auto-Update
+
+Whenever `counseling_state.md` is updated (after any command), also regenerate `references/watch-list.md` with:
+- School names from the College List (for school-specific deadline/policy monitoring)
+- Test type and target dates from Testing section
+- Scholarship names and deadlines from Financial section
+- Summer programs being tracked
+- Milestones coming up in the next 30 days from Timeline Status
+
+### Cron Task Prompt
+
+The following prompt is used by the OpenClaw cron job. It runs daily (recommended: 8 AM local time).
+
+```
+You are Beacon's daily knowledge monitor. Your job is to check for time-sensitive college admissions updates relevant to the student.
+
+Steps:
+1. Read counseling_state.md from the workspace. If it doesn't exist, reply NO_UPDATE (no student profile yet).
+2. Read references/watch-list.md to know what to monitor.
+3. Read references/knowledge-updates.md to see what's already been logged.
+4. For each item on the watch list, run targeted web searches:
+   - "[School name] application deadline [current year]" for each school on the list
+   - "FAFSA [current year] deadline changes"
+   - "SAT registration deadline [next upcoming test date]"
+   - "ACT registration deadline [next upcoming test date]"
+   - "[Scholarship name] deadline [current year]" for tracked scholarships
+   - "test optional policy changes [current year]" for schools on the list
+   - Check if any timeline milestones are within 14 days
+5. Compare findings against knowledge-updates.md. Only flag genuinely NEW information or deadlines within 14 days not already logged.
+6. If updates found:
+   - Append entries to references/knowledge-updates.md with timestamp, category, source, summary, and action needed
+   - Send a concise, friendly notification message. Format:
+     🎓 **Beacon Update** ([number] items)
+     • [Brief description of each update with action needed if any]
+     Type any command to continue your session.
+7. If no updates: reply with exactly NO_UPDATE (this suppresses notification).
+
+Rules:
+- Only notify for genuinely actionable or important changes
+- Never fabricate deadlines — if a search is inconclusive, skip it
+- Group multiple updates into one message
+- Keep the tone warm and helpful, not alarming
+- For approaching deadlines, include days remaining
+- Maximum 5 items per notification to avoid overwhelm
+```
+
+### Setup
+
+To enable the daily monitor, the user runs:
+```bash
+openclaw cron add --schedule "0 8 * * *" --task "beacon-daily-monitor" --label "Beacon Knowledge Monitor"
+```
+
+The cron reads from and writes to the same workspace where `counseling_state.md` lives.
+
+### Notification Examples
+
+**Deadline approaching:**
+> 🎓 **Beacon Update** (1 item)
+> • SAT registration for the May test closes in 5 days (March 10). You planned to take it this spring — don't forget to register!
+
+**Policy change:**
+> 🎓 **Beacon Update** (2 items)
+> • Stanford has extended its test-optional policy through 2027. No change needed to your strategy.
+> • FAFSA correction window opens March 15 — if your family's financial situation changed, you can update.
+
+**Multiple updates:**
+> 🎓 **Beacon Update** (3 items)
+> • UCLA supplemental essay prompts for 2026-27 are now published. Ready to brainstorm when you are!
+> • QuestBridge National Match deadline is in 12 days (Sept 26).
+> • Your `review` milestone for "finalize college list" was due this week — want to run `schools`?
+
 ## Priority Hierarchy
 
 When instructions compete for attention, follow this priority order:
