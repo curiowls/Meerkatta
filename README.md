@@ -1,8 +1,8 @@
-# Beacon (OpenClaw Edition)
+# Meerkatta 🦊
 
 🎓 An OpenClaw skill that turns your AI assistant into a college counselor. Guides high school students from freshman-year interest discovery through senior-year decisions — covering academic planning, extracurricular strategy, essay coaching, college list building, and financial aid. Chat with it on Telegram, Discord, or any OpenClaw channel.
 
-Adapted from [Beacon](https://github.com/00derek/Beacon) by [@00derek](https://github.com/00derek).
+Forked from [Beacon](https://github.com/00derek/Beacon) by [@00derek](https://github.com/00derek).
 
 ## What It Does
 
@@ -21,17 +21,17 @@ Adapted from [Beacon](https://github.com/00derek/Beacon) by [@00derek](https://g
 
 ```bash
 # Copy the skill folder to your OpenClaw skills directory
-cp -r Beacon ~/.openclaw/skills/beacon
+cp -r Meerkatta ~/.openclaw/skills/meerkatta
 
 # Or symlink it
-ln -s /path/to/Beacon ~/.openclaw/skills/beacon
+ln -s /path/to/Meerkatta ~/.openclaw/skills/meerkatta
 ```
 
 ### Option 2: Clone directly into skills
 
 ```bash
 cd ~/.openclaw/skills
-git clone https://github.com/curiowls/Beacon.git beacon
+git clone https://github.com/curiowls/Meerkatta.git meerkatta
 ```
 
 Once installed, the skill auto-triggers when college prep topics come up. Or just type **kickoff** to start.
@@ -63,7 +63,7 @@ Once installed, the skill auto-triggers when college prep topics come up. Or jus
 
 ## Daily Knowledge Monitor (New!)
 
-Beacon includes a daily cron job that automatically checks for time-sensitive updates relevant to your student's situation:
+Meerkatta includes a daily cron job that automatically checks for time-sensitive updates relevant to your student's situation:
 
 - 📅 **Deadline changes** — application, test registration, scholarships
 - 📋 **Policy updates** — test-optional changes, FAFSA updates
@@ -75,12 +75,12 @@ Beacon includes a daily cron job that automatically checks for time-sensitive up
 ### Enable it:
 
 ```bash
-openclaw cron add --schedule "0 8 * * *" --task "beacon-daily-monitor" --label "Beacon Knowledge Monitor"
+openclaw cron add --schedule "0 8 * * *" --task "meerkatta-daily-monitor" --label "Meerkatta Knowledge Monitor"
 ```
 
 The monitor reads your student's profile (`counseling_state.md`) and runs targeted searches. Updates are logged in `references/knowledge-updates.md`.
 
-## Differences from Original Beacon
+## Differences from Original Beacon (upstream)
 
 - Adapted for OpenClaw's skill system (runs via chat channels, not Claude Code terminal)
 - Chat-friendly formatting (shorter responses, no wide tables, mobile-optimized)
