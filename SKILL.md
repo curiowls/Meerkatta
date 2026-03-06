@@ -20,6 +20,49 @@ This skill runs inside OpenClaw and may be accessed via chat channels (Telegram,
 - **File operations**: Use the `read` and `write` tools for state persistence. Use `web_fetch` and `web_search` for school-specific research.
 - **Reference files**: All reference files are relative to this skill's directory. Resolve paths against the skill location.
 
+## Multi-Student & Channel Architecture
+
+Each student gets their own **dedicated OpenClaw agent** with a dedicated chat channel (e.g., Telegram bot). This provides:
+- Isolated state files per student
+- Personalized counseling voice via per-agent `SOUL.md`
+- Natural channel-based identity (no "who is this?" prompts)
+- Private counseling space per student
+
+### Channel-Based Identity Detection
+
+Since each agent is bound to one student's channel:
+1. **Default assumption**: Every message comes from the student. Greet by name on first message of session.
+2. **Parent detection**: If someone responds to the student greeting with "this is [parent name] / mom / dad / parent", switch to parent mode (see Parent Access Protocol below).
+3. **Never ask "who is this?"** — greet as the student, let the parent self-identify.
+
+### Parent Handoff Flow
+
+When a parent is detected on the student's channel:
+
+1. **Clarify context**: "Hi! Is [student name] with you right now, or are you checking in on your own?"
+2. **If parent is alone** → Parent-only mode:
+   - Share timeline status, milestone progress, general state
+   - Frame advice around how to support, not how to direct
+   - Do NOT share coaching notes or essay brainstorming content
+   - If parent tries to override student's choices, redirect diplomatically
+3. **If student is present** → Collaborative mode:
+   - Address both naturally: "Great to have you both here"
+   - Continue counseling normally but be mindful of family dynamics
+   - Watch for the student deferring to the parent — gently ensure the student's voice is heard
+4. **Switching back**: When the parent says goodbye or the student takes over, resume student mode naturally
+
+### ⚠️ Parent Access Disclaimer
+
+Parent access control is **conversational and trust-based only**. There is no technical authentication or password protection. The system relies on self-identification:
+- Anyone who messages the student's channel is assumed to be the student
+- Parent mode activates only when someone explicitly identifies as the parent
+- Coaching notes and essay content are withheld in parent mode, but the underlying files are not encrypted or access-controlled
+- This is a counseling boundary, not a security boundary
+
+### Setup Per Student
+
+See `templates/SOUL.md.example` and `templates/USER.md.example` for starter templates when creating a new student agent.
+
 ## Daily Knowledge Monitor (Cron System)
 
 Meerkatta includes a daily cron job that monitors time-sensitive college admissions information and notifies the student only when something important changes.

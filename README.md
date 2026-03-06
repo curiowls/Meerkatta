@@ -36,6 +36,31 @@ git clone https://github.com/curiowls/Meerkatta.git meerkatta
 
 Once installed, the skill auto-triggers when college prep topics come up. Or just type **kickoff** to start.
 
+### Option 3: Multi-student setup (recommended)
+
+Each student gets their own OpenClaw agent with a dedicated channel:
+
+```bash
+# Create an agent per student
+openclaw agents add meerkatta-alex
+openclaw agents add meerkatta-jamie
+
+# Install shared skill to each agent
+ln -s ~/.openclaw/skills/meerkatta ~/.openclaw/agents/meerkatta-alex/skills/meerkatta
+ln -s ~/.openclaw/skills/meerkatta ~/.openclaw/agents/meerkatta-jamie/skills/meerkatta
+
+# Customize each agent with the templates
+cp Meerkatta/templates/SOUL.md.example ~/.openclaw/agents/meerkatta-alex/SOUL.md
+cp Meerkatta/templates/USER.md.example ~/.openclaw/agents/meerkatta-alex/USER.md
+# Edit SOUL.md and USER.md for each student
+
+# Connect each agent to its own Telegram bot (or other channel)
+# Enable per-student monitoring
+openclaw cron add --agent meerkatta-alex --schedule "0 8 * * *" --task "meerkatta-daily-monitor"
+```
+
+See `templates/` for starter files.
+
 ## Commands
 
 | Command | What It Does |
@@ -60,6 +85,12 @@ Once installed, the skill auto-triggers when college prep topics come up. Or jus
 - **Motivational Interviewing** — open-ended questions, affirmations, reflective listening
 - **Timeline engine** — grade-aware milestones from freshman fall through senior spring
 - **Chat-native** — designed for mobile-friendly, conversational interaction via Telegram/Discord/etc.
+- **Multi-student** — each student gets their own agent, channel, and personalized counseling voice
+- **Parent access** — parents can check in via the student's channel with filtered view
+
+## ⚠️ Parent Access Disclaimer
+
+Parent access control is **conversational and trust-based only**. There is no technical authentication, passwords, or encryption. When a parent messages the student's channel and identifies themselves, Meerkatta withholds coaching notes and essay content — but this is a counseling boundary, not a security boundary. The underlying state files are readable by anyone with filesystem access.
 
 ## Daily Knowledge Monitor (New!)
 
@@ -86,6 +117,9 @@ The monitor reads your student's profile (`counseling_state.md`) and runs target
 - Chat-friendly formatting (shorter responses, no wide tables, mobile-optimized)
 - Uses OpenClaw tools (read/write/web_search/web_fetch) for file operations and research
 - **New: Daily knowledge monitor** — cron-based auto-updates for deadlines, policy changes, and approaching milestones
+- **New: Multi-student architecture** — separate agents per student with personalized SOUL.md
+- **New: Parent handoff flow** — channel-based identity detection with trust-based access control
+- **New: Templates** — starter SOUL.md and USER.md for quick per-student setup
 - Same counseling logic, frameworks, and reference materials
 
 ## Credits
