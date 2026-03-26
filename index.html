@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeerKatta — Your Video Specialist in the Menu Bar</title>
+  <meta name="description" content="Record screen or camera. MeerKatta handles the rest — trim, captions, resize, platform-ready. A video specialist powered by AI that lives in your macOS menu bar.">
+  <meta property="og:title" content="MeerKatta — Your Video Specialist in the Menu Bar">
+  <meta property="og:description" content="Record → platform-ready in seconds. No editing. No export dance. Just results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://meerkatta.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@qianhuang">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #0A7E8C;
+      --brand-light: #E8F5F7;
+      --brand-dark: #065A64;
+      --text: #1a1a2e;
+      --text-secondary: #5a5a7a;
+      --text-dim: #808096;
+      --bg: #FAFBFC;
+      --surface: #FFFFFF;
+      --surface-hover: #F5F7F9;
+      --border: #E8EAF0;
+      --accent-warm: #F59E0B;
+      --accent-warm-light: #FEF3C7;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ─── Navigation ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(250,251,252,0.85);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--brand);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav .logo span { font-size: 1.4rem; }
+    nav .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    nav .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav .nav-links a:hover { color: var(--brand); }
+    .btn-primary {
+      background: var(--brand);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--brand);
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 2px solid var(--brand);
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-secondary:hover { background: var(--brand-light); }
+
+    /* ─── Sections ─── */
+    section { padding: 100px 32px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 160px 32px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(10,126,140,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--brand-light);
+      color: var(--brand);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 .highlight {
+      color: var(--brand);
+    }
+    .hero .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero .hero-visual {
+      margin-top: 64px;
+      position: relative;
+    }
+    .app-mockup {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      max-width: 380px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .app-mockup-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .app-mockup-header .dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--brand-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+    .app-mockup-header .title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .app-mockup-body { padding: 20px; }
+    .mode-cards {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .mode-card {
+      flex: 1;
+      padding: 14px 8px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .mode-card.active {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-light);
+    }
+    .mode-card .icon { font-size: 1.4rem; display: block; margin-bottom: 6px; }
+    .platform-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .platform-chip {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .platform-chip.active {
+      background: var(--brand-light);
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+    .mockup-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--brand);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* ─── Flow Section ─── */
+    .flow-steps {
+      display: flex;
+      gap: 0;
+      margin-top: 48px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      flex: 1;
+      min-width: 200px;
+      max-width: 260px;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+    }
+    .flow-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -8px;
+      top: 32px;
+      font-size: 1.5rem;
+      color: var(--text-dim);
+    }
+    .flow-step .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .flow-step h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+    .flow-step p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── Features Grid ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: all 0.2s;
+    }
+    .feature-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand);
+      transform: translateY(-2px);
+    }
+    .feature-card .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--brand-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── Vision / Bigger Picture ─── */
+    .vision-section {
+      background: linear-gradient(135deg, var(--text) 0%, #2a2a4a 100%);
+      color: white;
+      border-radius: 0;
+    }
+    .vision-section .section-label { color: rgba(255,255,255,0.5); }
+    .vision-section .section-title { color: white; }
+    .vision-section .section-subtitle { color: rgba(255,255,255,0.7); }
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .vision-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+    .vision-card .emoji { font-size: 1.8rem; margin-bottom: 16px; display: block; }
+    .vision-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: white; }
+    .vision-card p { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+    .vision-highlight {
+      background: rgba(10,126,140,0.15);
+      border: 1px solid rgba(10,126,140,0.3);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 48px;
+      text-align: center;
+    }
+    .vision-highlight blockquote {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: white;
+      font-style: italic;
+      line-height: 1.5;
+      max-width: 700px;
+      margin: 0 auto 12px;
+    }
+    .vision-highlight .attribution {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ─── Notes Feature Highlight ─── */
+    .notes-section {
+      background: var(--accent-warm-light);
+    }
+    .notes-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .notes-content h3 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+    .notes-content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .notes-visual {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+    .note-item {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-hover);
+      margin-bottom: 10px;
+      border-left: 3px solid var(--accent-warm);
+    }
+    .note-item .note-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .note-item .note-meta {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ─── Platforms ─── */
+    .platforms-row {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .platform-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .platform-badge .p-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .platform-badge .p-name { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+    .platform-badge .p-ratio { font-size: 0.7rem; color: var(--text-dim); }
+
+    /* ─── CTA / Waitlist ─── */
+    .cta-section { text-align: center; }
+    .cta-section .section-title { max-width: 600px; margin-left: auto; margin-right: auto; }
+    .waitlist-form {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+      margin: 32px auto 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .waitlist-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-form input:focus { border-color: var(--brand); }
+    .waitlist-form .btn-primary { padding: 14px 28px; font-size: 1rem; }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 48px 32px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer .footer-links { display: flex; gap: 24px; }
+    footer .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    footer .footer-links a:hover { color: var(--brand); }
+    footer .copyright { color: var(--text-dim); font-size: 0.85rem; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      section { padding: 64px 20px; }
+      .hero { padding: 120px 20px 64px; }
+      .hero h1 { font-size: 2.2rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .vision-grid { grid-template-columns: 1fr; }
+      .notes-layout { grid-template-columns: 1fr; }
+      .flow-step:not(:last-child)::after { display: none; }
+      .flow-steps { flex-direction: column; align-items: center; gap: 32px; }
+      nav .nav-links a:not(.btn-primary) { display: none; }
+      footer .footer-inner { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="inner">
+      <a href="#" class="logo">
+        <span>🦦</span> MeerKatta
+      </a>
+      <div class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#vision">Vision</a>
+        <a href="#waitlist" class="btn-primary">Join Waitlist</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">🎬 macOS Menu Bar App</div>
+      <h1>Your video specialist.<br><span class="highlight">Always watching. Always ready.</span></h1>
+      <p class="subtitle">
+        Record your screen or camera. MeerKatta handles the rest — trim, captions, resize — platform-ready in seconds. No editing. No export dance.
+      </p>
+      <div class="cta-group">
+        <a href="#waitlist" class="btn-primary">Join the Waitlist →</a>
+        <a href="#how-it-works" class="btn-secondary">See how it works</a>
+      </div>
+
+      <div class="hero-visual">
+        <div class="app-mockup">
+          <div class="app-mockup-header">
+            <div class="dot">🦦</div>
+            <span class="title">MeerKatta</span>
+          </div>
+          <div class="app-mockup-body">
+            <div class="mode-cards">
+              <div class="mode-card active"><span class="icon">🖥️</span>Screen</div>
+              <div class="mode-card"><span class="icon">📷</span>Camera</div>
+              <div class="mode-card"><span class="icon">🖥️📷</span>Both</div>
+            </div>
+            <p style="font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:10px;">I'm posting to</p>
+            <div class="platform-chips">
+              <span class="platform-chip active">✓ XHS · 3:4</span>
+              <span class="platform-chip active">✓ LinkedIn · 16:9</span>
+              <span class="platform-chip">Twitter · 16:9</span>
+            </div>
+            <div class="mockup-btn">⏺ Start Recording</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works">
+    <div class="container">
+      <div style="text-align:center;">
+        <p class="section-label">How it works</p>
+        <h2 class="section-title">Three steps. Zero editing.</h2>
+        <p class="section-subtitle" style="margin:0 auto;">The tool disappears. Only the result remains.</p>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-number">1</div>
+          <h3>Record</h3>
+          <p>Click the menu bar icon or press ⌘⇧R. Pick screen, camera, or both. Hit record.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">2</div>
+          <h3>AI Processes</h3>
+          <p>MeerKatta trims silence, normalizes audio, transcribes, burns captions, and resizes — all automatically.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">3</div>
+          <h3>Post</h3>
+          <p>Platform-ready videos with suggested titles and captions. Preview, copy, share. Done in seconds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" style="background: var(--surface);">
+    <div class="container">
+      <p class="section-label">Features</p>
+      <h2 class="section-title">Everything between "stop" and "post"</h2>
+      <p class="section-subtitle">You handle the content. MeerKatta handles everything else.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon-box">✂️</div>
+          <h3>Smart Trim</h3>
+          <p>AI detects dead air, false starts, and trailing silence. Cuts to the good stuff — automatically.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">💬</div>
+          <h3>Auto Captions</h3>
+          <p>Local transcription in English, Chinese, and Japanese. Burned-in subtitles styled for each platform.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">📐</div>
+          <h3>Platform Presets</h3>
+          <p>One recording → multiple outputs. XHS (3:4), LinkedIn (16:9), Instagram (9:16), TikTok, Twitter. All at once.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">🔊</div>
+          <h3>Audio Fix</h3>
+          <p>Broadcast-standard normalization and noise reduction. Sound professional without a studio.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">🧠</div>
+          <h3>Learns You</h3>
+          <p>Remembers your platforms, your caption style, your preferences. Every recording gets smarter.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-box">🔒</div>
+          <h3>Local-First</h3>
+          <p>All processing happens on your Mac. Your recordings never leave your device. Privacy by architecture.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notes Feature -->
+  <section class="notes-section" id="notes">
+    <div class="container">
+      <div class="notes-layout">
+        <div class="notes-content">
+          <p class="section-label">The Moat</p>
+          <h3>Ideas are perishable.<br>Capture them before they fade.</h3>
+          <p>
+            Inspiration strikes at 2am. You can't record now — but you can write it down. 
+            MeerKatta's Notes let you capture ideas when they're fresh. When you're ready to record, 
+            your note becomes context. The AI knows what you're trying to say before you say it.
+          </p>
+          <p>
+            <strong>Better context → better trim → better captions → better post.</strong> 
+            No other recording tool connects intent to output like this.
+          </p>
+        </div>
+        <div class="notes-visual">
+          <p style="font-weight:700;font-size:0.9rem;margin-bottom:14px;">📝 Notes</p>
+          <div class="note-item">
+            <div class="note-text">Demo the new dashboard filter — show before/after</div>
+            <div class="note-meta">2 hours ago · Unused</div>
+          </div>
+          <div class="note-item">
+            <div class="note-text">Quick reaction to the Apple keynote — max 60s for Twitter</div>
+            <div class="note-meta">Yesterday · Unused</div>
+          </div>
+          <div class="note-item" style="opacity:0.5; border-left-color: var(--brand);">
+            <div class="note-text">Walkthrough of the onboarding flow redesign</div>
+            <div class="note-meta">3 days ago · Used → LinkedIn post</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platforms -->
+  <section style="text-align:center;">
+    <div class="container">
+      <p class="section-label">Platforms</p>
+      <h2 class="section-title">One recording. Every platform.</h2>
+      <p class="section-subtitle" style="margin:0 auto;">Select your platforms before you record. MeerKatta resizes, reformats, and optimizes for each — simultaneously.</p>
+      <div class="platforms-row">
+        <div class="platform-badge">
+          <div class="p-icon">📕</div>
+          <span class="p-name">小红书</span>
+          <span class="p-ratio">3:4 · 1080×1440</span>
+        </div>
+        <div class="platform-badge">
+          <div class="p-icon">💼</div>
+          <span class="p-name">LinkedIn</span>
+          <span class="p-ratio">16:9 · 1920×1080</span>
+        </div>
+        <div class="platform-badge">
+          <div class="p-icon">🐦</div>
+          <span class="p-name">Twitter / X</span>
+          <span class="p-ratio">16:9 · 2:20 max</span>
+        </div>
+        <div class="platform-badge">
+          <div class="p-icon">📸</div>
+          <span class="p-name">Instagram</span>
+          <span class="p-ratio">9:16 · 1080×1920</span>
+        </div>
+        <div class="platform-badge">
+          <div class="p-icon">🎵</div>
+          <span class="p-name">TikTok</span>
+          <span class="p-ratio">9:16 · 1080×1920</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision -->
+  <section class="vision-section" id="vision">
+    <div class="container">
+      <p class="section-label">The Bigger Picture</p>
+      <h2 class="section-title">AI is powerful. But power isn't the problem.</h2>
+      <p class="section-subtitle">
+        The gap isn't capability — it's access. AI can do almost anything, if you ask right. 
+        That "if" is the product opportunity of a generation.
+      </p>
+      <div class="vision-grid">
+        <div class="vision-card">
+          <span class="emoji">🎯</span>
+          <h3>The Problem with General AI</h3>
+          <p>
+            General-purpose AI gives you infinite power and zero direction. Every session starts from scratch. 
+            You re-explain your style, your platforms, your preferences. The AI can edit your video brilliantly — 
+            if you write a perfect prompt. Every. Single. Time.
+          </p>
+        </div>
+        <div class="vision-card">
+          <span class="emoji">🦦</span>
+          <h3>Specialist Faces</h3>
+          <p>
+            MeerKatta is a specialist. It doesn't do everything — it does one thing with depth. 
+            It knows video. It knows your platforms. It knows your style. The expertise is crystallized 
+            in the product so you don't have to carry it in your head.
+          </p>
+        </div>
+        <div class="vision-card">
+          <span class="emoji">🪄</span>
+          <h3>Absorbing Complexity</h3>
+          <p>
+            Every great product absorbs the gap between what a system can do and what a human knows to ask for. 
+            Google absorbed the internet. Canva absorbed Photoshop. 
+            MeerKatta absorbs the gap between AI-powered video editing and "I just want to post this."
+          </p>
+        </div>
+        <div class="vision-card">
+          <span class="emoji">🔁</span>
+          <h3>The Invisible Tool</h3>
+          <p>
+            The best tools disappear. You don't think about the tool — you think about what you're making. 
+            Record → Result. The habit forms. The tool fades. Only the output remains. 
+            That's what we're building.
+          </p>
+        </div>
+      </div>
+      <div class="vision-highlight">
+        <blockquote>"Product is about absorbing the complexity and gap between the system and the human."</blockquote>
+        <p class="attribution">— The principle behind MeerKatta</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist CTA -->
+  <section class="cta-section" id="waitlist">
+    <div class="container">
+      <p class="section-label">Early Access</p>
+      <h2 class="section-title">Be first to try MeerKatta</h2>
+      <p class="section-subtitle" style="margin:0 auto;">macOS menu bar app. Launching soon. Join the waitlist and we'll let you know when it's ready.</p>
+      <form class="waitlist-form" action="https://formspree.io/f/TODO_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="you@email.com" required>
+        <button type="submit" class="btn-primary">Join Waitlist →</button>
+      </form>
+      <p style="margin-top:16px;font-size:0.8rem;color:var(--text-dim);">No spam. Just a heads-up when we launch.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="copyright">© 2026 MeerKatta. Built by <a href="https://lugugul.com" style="color:var(--brand);text-decoration:none;">Lugugul Design</a></span>
+      <div class="footer-links">
+        <a href="https://x.com/qianhuang">Twitter / X</a>
+        <a href="https://github.com/curiowls/pounce">GitHub</a>
+        <a href="mailto:chelsea@meerkatta.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
