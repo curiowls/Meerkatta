@@ -16,18 +16,19 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --brand: #0A7E8C;
-      --brand-light: #E8F5F7;
-      --brand-dark: #065A64;
-      --text: #1a1a2e;
-      --text-secondary: #5a5a7a;
-      --text-dim: #808096;
-      --bg: #FAFBFC;
+      --brand: #955F3E;
+      --brand-light: #FCECC4;
+      --brand-dark: #7A4E33;
+      --red: #E54A4A;
+      --text: #2E2016;
+      --text-secondary: #6B5744;
+      --text-dim: #9A8876;
+      --bg: #FFFCF7;
       --surface: #FFFFFF;
-      --surface-hover: #F5F7F9;
-      --border: #E8EAF0;
-      --accent-warm: #F59E0B;
-      --accent-warm-light: #FEF3C7;
+      --surface-hover: #FEF8EE;
+      --border: #E8DFD2;
+      --accent-warm: #E54A4A;
+      --accent-warm-light: #FCECC4;
       --radius: 16px;
       --radius-sm: 10px;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
@@ -55,7 +56,7 @@
       right: 0;
       z-index: 100;
       backdrop-filter: blur(20px);
-      background: rgba(250,251,252,0.85);
+      background: rgba(255,252,247,0.85);
       border-bottom: 1px solid var(--border);
     }
     nav .inner {
@@ -163,7 +164,7 @@
       transform: translateX(-50%);
       width: 800px;
       height: 800px;
-      background: radial-gradient(circle, rgba(10,126,140,0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(252,236,196,0.4) 0%, transparent 70%);
       pointer-events: none;
     }
     .hero .badge {
@@ -282,7 +283,7 @@
     .mockup-btn {
       width: 100%;
       padding: 14px;
-      background: var(--brand);
+      background: var(--red);
       color: white;
       border: none;
       border-radius: 10px;
@@ -385,7 +386,7 @@
 
     /* ─── Vision / Bigger Picture ─── */
     .vision-section {
-      background: linear-gradient(135deg, var(--text) 0%, #2a2a4a 100%);
+      background: linear-gradient(135deg, #2E2016 0%, #3D2A1A 100%);
       color: white;
       border-radius: 0;
     }
@@ -408,8 +409,8 @@
     .vision-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: white; }
     .vision-card p { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
     .vision-highlight {
-      background: rgba(10,126,140,0.15);
-      border: 1px solid rgba(10,126,140,0.3);
+      background: rgba(149,95,62,0.15);
+      border: 1px solid rgba(149,95,62,0.3);
       border-radius: var(--radius);
       padding: 32px;
       margin-top: 48px;
@@ -572,7 +573,7 @@
   <nav>
     <div class="inner">
       <a href="#" class="logo">
-        <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#navlogo)"><path d="M24.97 82.89C26.92 95.09 24.97 96.32 24.97 101.93L67.11 101.98C62.22 92.4 59.59 85.25 58.78 74.12C57.84 61.22 79.55 62.81 86.83 56.15C90.44 52.85 92.7 50.41 93.82 46.41C94.14 45.29 93.3 44.23 92.16 44.04C71.66 40.73 73.63 20.21 45.63 20.21C30.82 20.38 16.26 28.9 16.26 47.69C16.26 68.54 22.27 66.07 24.97 82.89Z" stroke="currentColor" stroke-width="4"/><path d="M31.22 38.28C27.72 39.17 24.08 41.19 23.4 45.76C22.82 49.63 26.15 52.77 29.29 54.81C30.26 55.44 29.9 56.85 28.79 56.55C24 55.24 18.04 52.04 19.31 44.24C20.48 37.1 26.3 35.91 31.18 36.24C32.36 36.32 32.34 38 31.22 38.28Z" fill="currentColor"/><circle cx="56.6" cy="42" r="8.86" fill="#E54A4A" opacity="0.4"/><circle cx="56.6" cy="42" r="6.81" fill="#E54A4A"/></g><defs><clipPath id="navlogo"><rect width="100" height="100" rx="8" fill="white"/></clipPath></defs></svg>
+        <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#navlogo)"><path d="M24.97 82.89C26.92 95.09 24.97 96.32 24.97 101.93L67.11 101.98C62.22 92.4 59.59 85.25 58.78 74.12C57.84 61.22 79.55 62.81 86.83 56.15C90.44 52.85 92.7 50.41 93.82 46.41C94.14 45.29 93.3 44.23 92.16 44.04C71.66 40.73 73.63 20.21 45.63 20.21C30.82 20.38 16.26 28.9 16.26 47.69C16.26 68.54 22.27 66.07 24.97 82.89Z" stroke="#955F3E" stroke-width="4"/><path d="M31.22 38.28C27.72 39.17 24.08 41.19 23.4 45.76C22.82 49.63 26.15 52.77 29.29 54.81C30.26 55.44 29.9 56.85 28.79 56.55C24 55.24 18.04 52.04 19.31 44.24C20.48 37.1 26.3 35.91 31.18 36.24C32.36 36.32 32.34 38 31.22 38.28Z" fill="#955F3E"/><circle cx="56.6" cy="42" r="8.86" fill="#E54A4A" opacity="0.4"/><circle cx="56.6" cy="42" r="6.81" fill="#E54A4A"/></g><defs><clipPath id="navlogo"><rect width="100" height="100" rx="8" fill="white"/></clipPath></defs></svg>
         MeerKatta
       </a>
       <div class="nav-links">
@@ -600,7 +601,7 @@
       <div class="hero-visual">
         <div class="app-mockup">
           <div class="app-mockup-header">
-            <div class="dot"><svg width="16" height="16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#mocklogo)"><path d="M24.97 82.89C26.92 95.09 24.97 96.32 24.97 101.93L67.11 101.98C62.22 92.4 59.59 85.25 58.78 74.12C57.84 61.22 79.55 62.81 86.83 56.15C90.44 52.85 92.7 50.41 93.82 46.41C94.14 45.29 93.3 44.23 92.16 44.04C71.66 40.73 73.63 20.21 45.63 20.21C30.82 20.38 16.26 28.9 16.26 47.69C16.26 68.54 22.27 66.07 24.97 82.89Z" stroke="var(--brand)" stroke-width="4"/><circle cx="56.6" cy="42" r="6.81" fill="#E54A4A"/></g><defs><clipPath id="mocklogo"><rect width="100" height="100" rx="8" fill="white"/></clipPath></defs></svg></div>
+            <div class="dot"><svg width="16" height="16" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#mocklogo)"><path d="M24.97 82.89C26.92 95.09 24.97 96.32 24.97 101.93L67.11 101.98C62.22 92.4 59.59 85.25 58.78 74.12C57.84 61.22 79.55 62.81 86.83 56.15C90.44 52.85 92.7 50.41 93.82 46.41C94.14 45.29 93.3 44.23 92.16 44.04C71.66 40.73 73.63 20.21 45.63 20.21C30.82 20.38 16.26 28.9 16.26 47.69C16.26 68.54 22.27 66.07 24.97 82.89Z" stroke="#955F3E" stroke-width="4"/><circle cx="56.6" cy="42" r="6.81" fill="#E54A4A"/></g><defs><clipPath id="mocklogo"><rect width="100" height="100" rx="8" fill="white"/></clipPath></defs></svg></div>
             <span class="title">MeerKatta</span>
           </div>
           <div class="app-mockup-body">
