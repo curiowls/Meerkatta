@@ -283,9 +283,9 @@
     .mockup-btn {
       width: 100%;
       padding: 14px;
-      background: var(--red);
-      color: white;
-      border: none;
+      background: var(--brand-light);
+      color: var(--text);
+      border: 2px solid var(--border);
       border-radius: 10px;
       font-size: 0.95rem;
       font-weight: 700;
@@ -293,7 +293,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
+    }
+    .rec-eye {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 8px rgba(229,74,74,0.5);
+      flex-shrink: 0;
     }
 
     /* ─── Flow Section ─── */
@@ -616,7 +624,7 @@
               <span class="platform-chip active">✓ LinkedIn · 16:9</span>
               <span class="platform-chip">Twitter · 16:9</span>
             </div>
-            <div class="mockup-btn">⏺ Start Recording</div>
+            <div class="mockup-btn"><span class="rec-eye"></span> Start Recording</div>
           </div>
         </div>
       </div>
@@ -685,8 +693,8 @@
         </div>
         <div class="feature-card">
           <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <h3>Local-First</h3>
-          <p>All processing happens on your Mac. Your recordings never leave your device. Privacy by architecture.</p>
+          <h3>No Upload. No Wait.</h3>
+          <p>Everything runs on your Mac — no uploading to a server, no waiting in a queue. Works offline. Processing starts the instant you stop recording.</p>
         </div>
       </div>
     </div>
